@@ -1,0 +1,30 @@
+module.exports = {
+    parser: '@typescript-eslint/parser',
+    parserOptions: {
+        project: 'tsconfig.json',
+        tsconfigRootDir: __dirname,
+        sourceType: 'module',
+    },
+    plugins: ['prettier', '@typescript-eslint'],
+    extends: ['plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
+    root: true,
+    env: {
+        node: true,
+        commonjs: true,
+        es6: true,
+        jest: true,
+    },
+    ignorePatterns: ['.eslintrc.js'],
+    rules: {
+        'import/prefer-default-export': 'off',
+        '@typescript-eslint/prefer-nullish-coalescing': 'off',
+        '@typescript-eslint/strict-boolean-expressions': 'off',
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/consistent-type-imports': 'off',
+        '@typescript-eslint/restrict-template-expressions': 'off',
+        '@typescript-eslint/naming-convention': 'off',
+        'no-underscore-dangle': 'off',
+        'no-console': 'off',
+        'prettier/prettier': ['off'],
+    },
+}

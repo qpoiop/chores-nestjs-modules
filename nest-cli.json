@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/node-media-modules/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/node-media-modules/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/node-media-modules",
+  "projects": {
+    "rmq-ffmpeg": {
+      "type": "application",
+      "root": "apps/rmq-ffmpeg",
+      "entryFile": "main",
+      "sourceRoot": "apps/rmq-ffmpeg/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/rmq-ffmpeg/tsconfig.app.json"
+      }
+    },
+    "rmq-proxy": {
+      "type": "application",
+      "root": "apps/rmq-proxy",
+      "entryFile": "main",
+      "sourceRoot": "apps/rmq-proxy/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/rmq-proxy/tsconfig.app.json"
+      }
+    },
+    "rmq-common": {
+      "type": "library",
+      "root": "libs/rmq-common",
+      "entryFile": "index",
+      "sourceRoot": "libs/rmq-common/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/rmq-common/tsconfig.lib.json"
+      }
+    }
+  }
+}

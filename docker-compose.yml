@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  http-app:
+    build:
+      context: ./http-app
+      dockerfile: Dockerfile
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_QUEUE_PROXY=${RABBITMQ_QUEUE_PROXY}
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - app-worker
+
+  app-worker:
+    build:
+      context: ./app/rmq-proxy
+      dockerfile: Dockerfile
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_QUEUE_PROXY=${RABBITMQ_QUEUE_PROXY}
+      - RABBITMQ_QUEUE_FFMPEG=${RABBITMQ_QUEUE_FFMPEG}
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+
+  ffmpeg-worker:
+    build:
+      context: ./app/rmq-ffmpeg
+      dockerfile: Dockerfile
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_QUEUE_FFMPEG=${RABBITMQ_QUEUE_FFMPEG}
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+    scale: 2
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    volumes:
+      - ./rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
